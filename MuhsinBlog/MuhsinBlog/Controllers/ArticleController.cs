@@ -15,16 +15,33 @@ namespace MuhsinBlog.Controllers
     public class ArticleController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
         public ActionResult Index()
         {
-            return View(db.Article.ToList());
+            if (Request.IsAuthenticated) 
+            {
+                return View(db.Article.ToList());
+            }
+            else
+            {
+                return RedirectToAction("Login","Account");
+            }
+            
         }
 
         [HttpGet]
         public ActionResult Index(int page = 1)
         {
-            return View(db.Article.OrderBy(x => x.PhotoUrl).ToPagedList(page, 5));
+            if (Request.IsAuthenticated)
+            {
+                return View(db.Article.OrderBy(x => x.PhotoUrl).ToPagedList(page, 5));
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
+
 
         [HttpGet]
         public ActionResult Details(int id)
