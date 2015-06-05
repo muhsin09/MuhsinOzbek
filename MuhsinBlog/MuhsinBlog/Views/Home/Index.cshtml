@@ -1,4 +1,36 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<MuhsinBlog.Models.Article>
+@{
+    ViewBag.Title = "Home";
 }
+<h3>All Articles</h3>
 
+@foreach (var item in Model)
+{
+    <div>
+        <dl class="dl-horizontal">
+            <dd>
+                <h3>@item.Title</h3>
+                <br />
+            </dd>
+            <dd>
+                @if (item.PhotoUrl != null)
+                {
+                    <img src="~/Images/@item.PhotoUrl" alt="pic1" width="500px" height="300px" />
+                }
+            </dd>
+
+            <dd>
+                <br />
+                <p>@item.Body</p>
+            </dd>
+
+        </dl>
+        <br />
+    </div>
+}
+<div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+</div>

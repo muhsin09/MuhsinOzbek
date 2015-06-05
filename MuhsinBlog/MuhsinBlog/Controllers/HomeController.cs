@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MuhsinBlog.Models;
+using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,23 +10,24 @@ namespace MuhsinBlog.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ApplicationDbContext db = new ApplicationDbContext();
+        // GET: Article/Details/5
+        public ActionResult Index(int? page)
         {
-            return View();
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+            IPagedList<Article> list = db.Article.SqlQuery("select * from Articles;").OrderBy(art => art.Date).ToPagedList(pageNumber, pageSize);
+            if (list == null)
+            {
+                return HttpNotFound();
+            }
+            return View(list);
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }

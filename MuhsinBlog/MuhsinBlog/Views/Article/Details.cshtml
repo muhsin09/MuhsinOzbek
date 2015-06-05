@@ -1,0 +1,27 @@
+﻿@model MuhsinBlog.Models.Article
+@{
+    ViewBag.Title = "Details";
+}
+<h3>All Articles</h3>
+
+   <div>
+        <dl class="dl-horizontal">
+            <dd>
+                <h3>@Model.Title</h3>
+                <br />
+            </dd>
+            <dd>
+                @if (Model.PhotoUrl != null)
+                {
+                    <img src="~/Images/@Model.PhotoUrl" alt="pic1" width="500px" height="300px" />
+                }
+            </dd>
+
+            <dd>
+                <br />
+                <p>@Model.Body</p>
+            </dd>
+
+        </dl>
+        <br />
+    </div>
